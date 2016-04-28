@@ -4,10 +4,12 @@ import com.orm.SugarRecord;
 import com.orm.dsl.Table;
 
 /**
- * Created by Micheal on 26/04/16.
+ * DB Entity Gatt represents a purchasable alcoholic item
  */
 @Table
 public class Gatt extends SugarRecord {
+
+    // Class-level attributes
 
     private Long id;
     private String name;
@@ -16,40 +18,10 @@ public class Gatt extends SugarRecord {
     private double volume;
     private double price;
     private boolean ml;
-    // private
-    double score;
-
-    public double getUnits() {
-        return units;
-    }
-
-    public void setUnits(double units) {
-        this.units = units;
-    }
-
+    private double score;
     private double units;
 
-    public double getScore() {
-        return score;
-    }
-
-    public void setScore(double score) {
-        this.score = score;
-    }
-
-
-
-    @Override
-    public Long getId() {
-        return id;
-    }
-
-    @Override
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-
+    // Constructors
 
     public Gatt(){}
 
@@ -64,11 +36,25 @@ public class Gatt extends SugarRecord {
         createScore();
     }
 
+    // Helper methods
+
     private void createScore(){
         if (ml){
             volume = volume * 10;
         }
         score = (alcPerc * volume * units) / price;
+    }
+
+    // Setters and getters
+
+    @Override
+    public Long getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -119,7 +105,24 @@ public class Gatt extends SugarRecord {
         this.ml = ml;
     }
 
+    public double getScore() {
+        return score;
+    }
 
+    public void setScore(double score) {
+        this.score = score;
+    }
+
+
+    public double getUnits() {
+        return units;
+    }
+
+    public void setUnits(double units) {
+        this.units = units;
+    }
+
+    // toString
 
     @Override
     public String toString() {
