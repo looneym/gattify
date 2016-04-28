@@ -9,6 +9,36 @@ import com.orm.dsl.Table;
 @Table
 public class Gatt extends SugarRecord {
 
+    private Long id;
+    private String name;
+    private String type;
+    private double alcPerc;
+    private double volume;
+    private double price;
+    private boolean ml;
+    // private
+    double score;
+
+    public double getUnits() {
+        return units;
+    }
+
+    public void setUnits(double units) {
+        this.units = units;
+    }
+
+    private double units;
+
+    public double getScore() {
+        return score;
+    }
+
+    public void setScore(double score) {
+        this.score = score;
+    }
+
+
+
     @Override
     public Long getId() {
         return id;
@@ -19,17 +49,26 @@ public class Gatt extends SugarRecord {
         this.id = id;
     }
 
-    private Long id;
+
 
     public Gatt(){}
 
-    public Gatt(String name, String type, double alcPerc, double volume, double price, boolean ml) {
+    public Gatt(String name, String type, double alcPerc, double volume, double price, boolean ml, double units) {
         this.name = name;
         this.type = type;
         this.alcPerc = alcPerc;
         this.volume = volume;
         this.price = price;
         this.ml = ml;
+        this.units= units;
+        createScore();
+    }
+
+    private void createScore(){
+        if (ml){
+            volume = volume * 10;
+        }
+        score = (alcPerc * volume * units) / price;
     }
 
     public String getName() {
@@ -80,12 +119,7 @@ public class Gatt extends SugarRecord {
         this.ml = ml;
     }
 
-    private String name;
-    private String type;
-    private double alcPerc;
-    private double volume;
-    private double price;
-    private boolean ml;
+
 
     @Override
     public String toString() {

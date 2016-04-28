@@ -1,5 +1,6 @@
 package com.example.micheal.assingment2;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private double gattVolume;
     private String selectedGattType;
     private int gattPercentage;
+    private double gattUnits;
     private boolean ml;
     private  final String[] alcoholTypes = { "Beer", "Wine", "Spirit" };
     private static final int LARGE_MOVE = 60;
@@ -49,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home);
+
+
 
 
         //////// Gestures
@@ -201,6 +205,11 @@ public class MainActivity extends AppCompatActivity {
         EditText nameInput = (EditText) findViewById(R.id.nameInput);
         gattName = nameInput.getText().toString();
 
+        // units
+
+        EditText unitsInput = (EditText) findViewById(R.id.unitsInput);
+        gattUnits = Double.parseDouble(unitsInput.getText().toString());
+
 
 
 
@@ -209,7 +218,7 @@ public class MainActivity extends AppCompatActivity {
         // same for the seek bar
         gattPercentage = alcSeekBar.getProgress();
 
-        Gatt userGatt = new Gatt(gattName, selectedGattType, gattPercentage, gattVolume , gattPrice, ml );
+        Gatt userGatt = new Gatt(gattName, selectedGattType, gattPercentage, gattVolume , gattPrice, ml, gattUnits );
 
         System.out.println(userGatt);
 
