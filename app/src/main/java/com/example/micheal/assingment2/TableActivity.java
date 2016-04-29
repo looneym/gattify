@@ -24,7 +24,7 @@ import java.util.List;
  * Activity Class to display a TableLayout of Gatt entities and perform CRUD operations, sorting etc.
  */
 public class TableActivity extends AppCompatActivity {
-    private static final int LARGE_MOVE = 60;
+    private static final int LARGE_MOVE = 20;
     int cellWidth;
     TableLayout myTable;
     GestureDetector gestureDetector;
@@ -40,8 +40,6 @@ public class TableActivity extends AppCompatActivity {
     // onTouchEvent required for onFling to be invoked (gestures)
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        System.out.println("===========onTOuchEvent methd============");
-        System.out.println("In onTouchEvent");
         return gestureDetector.onTouchEvent(event); // ...pass to gestureDetector above
     }
 
@@ -107,10 +105,10 @@ public class TableActivity extends AppCompatActivity {
 
         TextView tvLeft = new TextView(TableActivity.this);
         tvLeft.setText("Name");
-        tvLeft.setTextSize(20);
+        tvLeft.setTextSize(30);
         tvLeft.setMaxWidth(cellWidth);
-        tvLeft.setPadding(20, 5, 5, 5);
-        tvLeft.setGravity(Gravity.LEFT);
+        tvLeft.setPadding(50, 50, 0, 0);
+        tvLeft.setGravity(Gravity.CENTER);
         tvLeft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -123,7 +121,8 @@ public class TableActivity extends AppCompatActivity {
         TextView tvCenter = new TextView(TableActivity.this);
         tvCenter.setText("Price");
         tvCenter.setMaxWidth(cellWidth);
-        tvCenter.setTextSize(20);
+        tvCenter.setTextSize(30);
+        tvCenter.setPadding(0, 50, 0, 0);
         tvCenter.setGravity(Gravity.CENTER);
         tvCenter.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,11 +134,11 @@ public class TableActivity extends AppCompatActivity {
         // RIGHT
 
         TextView tvRight = new TextView(TableActivity.this);
-        tvRight.setText("Gattify Score");
+        tvRight.setText("Score");
         tvRight.setMaxWidth(cellWidth);
-        tvRight.setTextSize(20);
-        tvRight.setPadding(0, 5, 20, 5);
-        tvRight.setGravity(Gravity.RIGHT);
+        tvRight.setTextSize(30);
+        tvRight.setPadding(0, 50, 50, 0);
+        tvRight.setGravity(Gravity.CENTER);
         tvRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -174,7 +173,9 @@ public class TableActivity extends AppCompatActivity {
             // Entity values
             String name = gatt.getName();
             String price = String.valueOf(gatt.getPrice());
-            String gattScore = String.valueOf(gatt.getScore());
+            double x = gatt.getScore();
+            int y = (int)Math.round(x);
+            String gattScore = String.valueOf(y);
 
             // LEFT
 
@@ -183,8 +184,10 @@ public class TableActivity extends AppCompatActivity {
             tvLeft.setTag(gatt);
             tvLeft.setTextSize(20);
             tvLeft.setMaxWidth(cellWidth);
-            tvLeft.setPadding(20, 5, 5, 5);
-            tvLeft.setGravity(Gravity.LEFT);
+            tvLeft.setPadding(20, 30, 5, 5);
+            tvLeft.setGravity(Gravity.CENTER_HORIZONTAL);
+//            tvLeft.setPadding(50, 50, 0, 0);
+//            tvLeft.setGravity(Gravity.CENTER);
 
             // CENTER
 
@@ -192,8 +195,10 @@ public class TableActivity extends AppCompatActivity {
             tvCenter.setText(price);
             tvCenter.setMaxWidth(cellWidth);
             tvCenter.setTextSize(20);
-            tvCenter.setPadding(5, 5, 5, 5);
+            tvCenter.setPadding(5, 30, 5, 5);
             tvCenter.setGravity(Gravity.CENTER);
+//            tvCenter.setPadding(0, 50, 0, 0);
+//            tvCenter.setGravity(Gravity.CENTER);
 
             // RIGHT
 
@@ -201,8 +206,8 @@ public class TableActivity extends AppCompatActivity {
             tvRight.setText(gattScore);
             tvRight.setMaxWidth(cellWidth);
             tvRight.setTextSize(20);
-            tvRight.setPadding(0, 5, 20, 5);
-            tvRight.setGravity(Gravity.RIGHT);
+            tvRight.setPadding(5, 30, 5, 5);
+            tvRight.setGravity(Gravity.LEFT);
 
             // Table row creation and insertion
 
@@ -248,6 +253,7 @@ public class TableActivity extends AppCompatActivity {
             View v = new View(this);
             v.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, 1));
             v.setBackgroundColor(Color.rgb(51, 51, 51));
+            v.setPadding(0, 20, 0, 10);
 
             // Add TableRow and line to the table
             myTable.addView(v);

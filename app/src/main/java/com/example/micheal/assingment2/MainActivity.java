@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private double gattUnits;
     private boolean ml;
     private  final String[] alcoholTypes = { "Beer", "Wine", "Spirit" };
-    private static final int LARGE_MOVE = 60;
+    private static final int LARGE_MOVE = 20;
     private GestureDetector gestureDetector;
 
     @Override // onTouchEvent required for onFling to be invoked...
