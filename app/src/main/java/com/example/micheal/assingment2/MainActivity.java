@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private String gattName;
     private double gattPrice;
     private double gattVolume;
-    private String selectedGattType;
+    private String selectedGattType = "whatever";
     private int gattPercentage;
     private double gattUnits;
     private boolean ml;
@@ -65,10 +65,12 @@ public class MainActivity extends AppCompatActivity {
                         System.out.println("in onFling");
                         if (e1.getY() - e2.getY() > LARGE_MOVE) {
                             System.out.println("\nFling Up with velocity " + velocityY);
+                            moveLeft();
                             return true;
 
                         } else if (e2.getY() - e1.getY() > LARGE_MOVE) {
                             System.out.println("\nFling Down with velocity " + velocityY);
+                            moveRight();
                             return true;
 
                         } else if (e1.getX() - e2.getX() > LARGE_MOVE) {
@@ -122,13 +124,13 @@ public class MainActivity extends AppCompatActivity {
         //////////////// SPINNER
 
 
-        alcoholType = (Spinner) findViewById(R.id.spinner);
-
-        ArrayAdapter<String> mAdapter = new ArrayAdapter<String>(this,
-                R.layout.spinner_entry, alcoholTypes);
-
-        mAdapter.setDropDownViewResource(R.layout.spinner_entry);
-        alcoholType.setAdapter(mAdapter);
+//        alcoholType = (Spinner) findViewById(R.id.spinner);
+//
+//        ArrayAdapter<String> mAdapter = new ArrayAdapter<String>(this,
+//                R.layout.spinner_entry, alcoholTypes);
+//
+//        mAdapter.setDropDownViewResource(R.layout.spinner_entry);
+//        alcoholType.setAdapter(mAdapter);
 
 
 
@@ -214,7 +216,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         // The spinner doesn't have an onClick to update the variable when it's state changes so we grab it now
-        selectedGattType = alcoholType.getSelectedItem().toString();
+//        selectedGattType = alcoholType.getSelectedItem().toString();
         // same for the seek bar
         gattPercentage = alcSeekBar.getProgress();
 

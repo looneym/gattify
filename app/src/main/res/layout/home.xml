@@ -4,56 +4,67 @@
     android:layout_height="match_parent"
     android:weightSum="1">
 
+    <LinearLayout
+    android:background="#517C62"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.05">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="49dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Help"
+                android:id="@+id/helpMenu"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="35dp"
+                android:layout_marginEnd="35dp"
+                android:textColor="#3f3f3f" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Settings"
+                android:id="@+id/settingsMenu"
+                android:layout_marginRight="40dp"
+                android:layout_marginEnd="40dp"
+                android:layout_alignTop="@+id/helpMenu"
+                android:layout_toLeftOf="@+id/helpMenu"
+                android:layout_toStartOf="@+id/helpMenu"
+                android:textColor="#3f3f3f" />
+
+            <ImageView
+                android:layout_width="75dp"
+                android:layout_height="99dp"
+                android:src="@drawable/beer"
+                android:layout_marginLeft="21dp"
+                android:layout_marginStart="21dp"
+                android:layout_alignBottom="@+id/settingsMenu"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></LinearLayout>
+
 
     <EditText
+        android:hint="Give your new Gatt a name..."
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="numberDecimal"
-        android:ems="10"
-        android:hint="What's the volume of liquid??"
-        android:id="@+id/volumeInput" />
-
-    <RadioGroup
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-
-
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ml"
-            android:id="@+id/mlRB"
-            android:checked="false" />
-
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="cl"
-            android:id="@+id/clRB"
-            android:checked="false" />
-    </RadioGroup>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Alcohol Percentage ="
-        android:id="@+id/alcPercSeekValue" />
-
-    <SeekBar
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/alcSeekBar"
-        android:layout_gravity="center_horizontal"
-        android:indeterminate="false"
-        android:max="100"
-        android:progress="1" />
-
-    <Spinner
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/spinner"
-        android:spinnerMode="dropdown" />
+        android:id="@+id/nameInput"
+        android:layout_weight="0.14" />
 
     <EditText
         android:layout_width="match_parent"
@@ -61,7 +72,48 @@
         android:inputType="numberDecimal"
         android:ems="10"
         android:id="@+id/unitsInput"
-        android:hint="How many units?"/>
+        android:hint="How many Containers?"
+        android:layout_weight="0.15" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="1"
+        android:layout_weight="0.07">
+
+        <EditText
+            android:layout_width="227dp"
+            android:layout_height="77dp"
+            android:inputType="numberDecimal"
+            android:ems="10"
+            android:hint="How much liquid per container?"
+            android:id="@+id/volumeInput"
+            android:layout_weight="0.75" />
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="74dp"
+            android:paddingTop="5dp">
+
+
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ml"
+                android:id="@+id/mlRB"
+                android:checked="false" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="cl"
+                android:id="@+id/clRB"
+                android:checked="false" />
+
+        </RadioGroup>
+    </LinearLayout>
 
     <EditText
         android:layout_width="match_parent"
@@ -69,26 +121,58 @@
         android:inputType="numberDecimal"
         android:ems="10"
         android:id="@+id/priceInput"
-        android:hint="What's the total price?"/>
+        android:hint="What's the total price?"
+        android:layout_weight="0.10" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="\n Slide to set alcohol percentage"
+        android:id="@+id/textView"
+        android:layout_weight="0.10"
+        android:layout_gravity="center" />
 
-
-    <EditText
+    <SeekBar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/nameInput"
-        />
+        android:id="@+id/alcSeekBar"
+        android:indeterminate="false"
+        android:max="100"
+        android:progress="1"
+        android:layout_weight="0.14" />
 
-    <Button
+
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="oK"
-        android:id="@+id/runCalculation" />
+        android:id="@+id/alcPercSeekValue"
+        android:layout_weight="0.17"
+        android:layout_gravity="center_horizontal" />
 
-    <Button
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="show table"
-        android:id="@+id/showTableButton" />
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="0.12"
+        android:weightSum="1">
+
+        <Button
+            android:layout_width="193dp"
+            android:layout_height="match_parent"
+            android:text="Add Gatt"
+            android:id="@+id/runCalculation"
+            android:textColor="#ffffff"
+            android:background="#517C62" />
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:text="show gatts"
+            android:id="@+id/showTableButton"
+            android:textColor="#ffffff"
+            android:background="#517C62" />
+    </LinearLayout>
 
 </LinearLayout>

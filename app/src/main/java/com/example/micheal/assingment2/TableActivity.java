@@ -57,10 +57,12 @@ public class TableActivity extends AppCompatActivity {
                         System.out.println("in onFling");
                         if (e1.getY() - e2.getY() > LARGE_MOVE) {
                             System.out.println("\nFling Up with velocity " + velocityY);
+                            moveLeft();
                             return true;
 
                         } else if (e2.getY() - e1.getY() > LARGE_MOVE) {
                             System.out.println("\nFling Down with velocity " + velocityY);
+                            moveRight();
                             return true;
 
                         } else if (e1.getX() - e2.getX() > LARGE_MOVE) {
