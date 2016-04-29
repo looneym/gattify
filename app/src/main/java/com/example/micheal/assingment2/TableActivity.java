@@ -17,14 +17,11 @@ import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 /**
- * Created by Micheal on 26/04/16.
+ * Activity Class to display a TableLayout of Gatt entities and perform CRUD operations, sorting etc.
  */
 public class TableActivity extends AppCompatActivity {
     private static final int LARGE_MOVE = 60;
@@ -33,11 +30,6 @@ public class TableActivity extends AppCompatActivity {
     private GestureDetector gestureDetector;
     private final int DELETE_ITEM = 1, DELETE_ALL = 2, ID_TEXT3 = 3;
 
-    @Override // onTouchEvent required for onFling to be invoked...
-    public boolean onTouchEvent(MotionEvent event) {
-        System.out.println("In onTouchEvent");
-        return gestureDetector.onTouchEvent(event); // ...pass to gestureDetector above
-    }
 
 
     @Override
@@ -45,81 +37,18 @@ public class TableActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.table);
 
-
-//            String[] dbs =  con.databaseList();
-//            for (int i = 0 ; i< dbs.length; i++){
-//                String db = dbs[i];
-//                System.out.println(db);
-//            }
-
-
-        //////////////////////////
-
-
+        // Ensures TableCells take up one third of the screen
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
-
-
         int screenWidth = metrics.widthPixels;
         cellWidth = screenWidth / 3;
 
+        // Prepare the TableLayout, retrieve the entities and call method to fill it
         myTable = (TableLayout) findViewById(R.id.myTable);
-        List<Gatt> gatts = Gatt.listAll(Gatt.class);
-        populateTable(gatts);
-    }
 
-    private void populateTableHeaders() {
+        populateTable(getGatts());
 
-        TextView tvLeft = new TextView(TableActivity.this);
-        tvLeft.setText("Name");
-        tvLeft.setTextSize(20);
-        tvLeft.setMaxWidth(cellWidth);
-        tvLeft.setPadding(20, 5, 5, 5);
-        tvLeft.setGravity(Gravity.LEFT);
-        tvLeft.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                System.out.println("Sort Name");
-            }
-        });
-
-        TextView tvCenter = new TextView(TableActivity.this);
-        tvCenter.setText("Price");
-        tvCenter.setMaxWidth(cellWidth);
-        tvCenter.setTextSize(20);
-//        tvCenter.setPadding(5, 5, 5, 5);
-        tvCenter.setGravity(Gravity.CENTER);
-        tvCenter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                System.out.println("Sort Price");
-            }
-        });
-
-        TextView tvRight = new TextView(TableActivity.this);
-        tvRight.setText("Gattify Score");
-//        tvRight.setMaxWidth(cellWidth);
-        tvRight.setTextSize(20);
-        tvRight.setPadding(0, 5, 20, 5);
-//        tvRight.setGravity(Gravity.RIGHT);
-        tvRight.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                System.out.println("Sort Gattify Score");
-                sortGattify();
-            }
-        });
-
-        TableRow tr = new TableRow(TableActivity.this);
-        tr.addView(tvLeft);
-        tr.addView(tvCenter);
-        tr.addView(tvRight);
-        tr.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT));
-
-
-        myTable.addView(tr);
-
-        //////// Gestures
+        // Gesture detection and handling
 
         gestureDetector = new GestureDetector(this,
                 new GestureDetector.SimpleOnGestureListener() {
@@ -153,22 +82,92 @@ public class TableActivity extends AppCompatActivity {
                         return false; // works with true also
                     }
                 });
+    }
+
+    @Override // onTouchEvent required for onFling to be invoked...
+    public boolean onTouchEvent(MotionEvent event) {
+        System.out.println("In onTouchEvent");
+        return gestureDetector.onTouchEvent(event); // ...pass to gestureDetector above
+    }
+
+    // Column names and click listeners for same
+    private void populateTableHeaders() {
+
+
+        // LEFT
+
+        TextView tvLeft = new TextView(TableActivity.this);
+        tvLeft.setText("Name");
+        tvLeft.setTextSize(20);
+        tvLeft.setMaxWidth(cellWidth);
+        tvLeft.setPadding(20, 5, 5, 5);
+        tvLeft.setGravity(Gravity.LEFT);
+        tvLeft.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("Sort Name");
+            }
+        });
+
+        // CENTER
+
+        TextView tvCenter = new TextView(TableActivity.this);
+        tvCenter.setText("Price");
+        tvCenter.setMaxWidth(cellWidth);
+        tvCenter.setTextSize(20);
+        tvCenter.setGravity(Gravity.CENTER);
+        tvCenter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("Sort Price");
+            }
+        });
+
+        // RIGHT
+
+        TextView tvRight = new TextView(TableActivity.this);
+        tvRight.setText("Gattify Score");
+        tvRight.setMaxWidth(cellWidth);
+        tvRight.setTextSize(20);
+        tvRight.setPadding(0, 5, 20, 5);
+        tvRight.setGravity(Gravity.RIGHT);
+        tvRight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("Sort Gattify Score");
+            }
+        });
+
+        // Table row creation and insertion
+
+        TableRow tr = new TableRow(TableActivity.this);
+        tr.addView(tvLeft);
+        tr.addView(tvCenter);
+        tr.addView(tvRight);
+        tr.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT));
+        myTable.addView(tr);
 
     }
 
 
+    // Dynamically create TableRows using DB entities
     private void populateTable(List<Gatt> gatts) {
 
-
+        // Clear al views to prevent stacking
         myTable.removeAllViews();
+
+        // Get column names from helper method
         populateTableHeaders();
 
-//        List<Gatt> gatts = Gatt.listAll(Gatt.class);
-
+        // Row creation
         for (Gatt gatt : gatts) {
+
+            // Entity values
             String name = gatt.getName();
             String price = String.valueOf(gatt.getPrice());
             String gattScore = String.valueOf(gatt.getScore());
+
+            // LEFT
 
             TextView tvLeft = new TextView(TableActivity.this);
             tvLeft.setText(name);
@@ -178,19 +177,25 @@ public class TableActivity extends AppCompatActivity {
             tvLeft.setPadding(20, 5, 5, 5);
             tvLeft.setGravity(Gravity.LEFT);
 
+            // CENTER
+
             TextView tvCenter = new TextView(TableActivity.this);
             tvCenter.setText(price);
             tvCenter.setMaxWidth(cellWidth);
             tvCenter.setTextSize(20);
-//        tvCenter.setPadding(5, 5, 5, 5);
+            tvCenter.setPadding(5, 5, 5, 5);
             tvCenter.setGravity(Gravity.CENTER);
+
+            // RIGHT
 
             TextView tvRight = new TextView(TableActivity.this);
             tvRight.setText(gattScore);
-//        tvRight.setMaxWidth(cellWidth);
+            tvRight.setMaxWidth(cellWidth);
             tvRight.setTextSize(20);
             tvRight.setPadding(0, 5, 20, 5);
-//        tvRight.setGravity(Gravity.RIGHT);
+            tvRight.setGravity(Gravity.RIGHT);
+
+            // Table row creation and insertion
 
             final TableRow tr = new TableRow(TableActivity.this);
             tr.addView(tvLeft);
@@ -198,64 +203,47 @@ public class TableActivity extends AppCompatActivity {
             tr.addView(tvRight);
             tr.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT));
 
+            // Short click listener for each row
             tr.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    displayDetails(tr);
+                    // NO LOGIC IMPLEMENTED
                 }
             });
 
-            registerForContextMenu(tr);
-
+            // Long click listener to trigger context menu and pass it entity values
             tr.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
+
+                    // Get entity values
                     TextView tv = (TextView) tr.getChildAt(0);
                     String name = (tv.getText().toString());
-
                     Gatt g = (Gatt) tv.getTag();
                     Long id = g.getId();
 
-
+                    // Make available for retrieval
                     setIntent(getIntent().putExtra("id", id));
                     setIntent(getIntent().putExtra("name", name));
 
+                    // Voodoo magic
                     registerForContextMenu(v);
                     openContextMenu(v);
                     unregisterForContextMenu(v);
                     return true;
-//                                openContextMenu(tr);
-//                                return true;
+
                 }
             });
 
+            // Add a horizontal line to each row for visual effect
             View v = new View(this);
             v.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, 1));
             v.setBackgroundColor(Color.rgb(51, 51, 51));
 
-
+            // Add TableRow and line to the table
             myTable.addView(v);
-
-
             myTable.addView(tr);
-
-
         }
-
-
-    }
-
-    private void displayDetails(TableRow tr) {
-        TextView tv = (TextView) tr.getChildAt(0);
-        System.out.println(tv.getText().toString());
-        Gatt gatt = (Gatt) tv.getTag();
-        System.out.println(gatt);
-
-
-    }
-
-    public void showContextMenu(TableRow tr) {
-
     }
 
     @Override
@@ -263,71 +251,53 @@ public class TableActivity extends AppCompatActivity {
                                     ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, tr, menuInfo);
 
-
+        // Get entity values
         Intent intent = getIntent();
-
         final String name = intent.getStringExtra("name");
-
         final Long id = intent.getLongExtra("id", 0);
-        System.out.println("==============================");
-        System.out.println(name);
-        System.out.println(id);
 
-        System.out.println("==============================");
-
-        Button deleteButton = new Button(this);
-        deleteButton.setText("Delete");
-
-        MenuItem item1 = menu.add(0, DELETE_ITEM, 0, "Delete");
-        MenuItem item2 = menu.add(0, DELETE_ALL, 2, "Delete All");
-
-
-//            SubMenu textMenu = menu.addSubMenu("Delete");
-//
-//
-//        textMenu.add(0, DELETE_ITEM, 0, "Delete");
-
-
-        menu.setHeaderTitle("title");
+        // Context menu header/title
 
         TextView gattDetails = new TextView(this);
         gattDetails.setText("Gatt Object \n" + "name: " + name + "\n" + "id: " + id.toString());
         gattDetails.setTextSize(20);
         gattDetails.setGravity(Gravity.CENTER);
-
         menu.setHeaderView(gattDetails);
+
+        // Menu items, String values are handled by onContextItemSelected() method
+
+        MenuItem item1 = menu.add(0, DELETE_ITEM, 0, "Delete");
+        MenuItem item2 = menu.add(0, DELETE_ALL, 2, "Delete All");
 
     }
 
+    // Handler logic for context menu items
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        List<Gatt> gatts = Gatt.listAll(Gatt.class);
+
+        // Get entity values
         Intent intent = getIntent();
-
         final String name = intent.getStringExtra("name");
-
         final Long id = intent.getLongExtra("id", 0);
+
         switch (item.getItemId()) {
             case DELETE_ITEM:
                 System.out.println("Delete Item" + name);
                 Gatt toDelete = Gatt.findById(Gatt.class, id);
                 Gatt.delete(toDelete);
-
-                populateTable(gatts);
-
-
+                populateTable(getGatts());
                 return true;
             case DELETE_ALL:
                 System.out.println("Delete All");
                 Gatt.deleteAll(Gatt.class);
-
-                populateTable(gatts);
+                populateTable(getGatts());
                 return true;
 
         }
         return super.onContextItemSelected(item);
     }
 
+    // Activity change - Main Page
     private void showMainPage() {
         System.out.println("showmain");
         Intent showMainActivity = new Intent(TableActivity.this, MainActivity.class);
@@ -335,22 +305,29 @@ public class TableActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 
+    // Gesture catcher methods
+
     private void moveRight() {
+        // NO LOGIC YET
     }
 
     private void moveLeft() {
-        System.out.println("moveLEft");
         showMainPage();
+    }
+
+    private List<Gatt> getGatts(){
+        List<Gatt> gatts = Gatt.listAll(Gatt.class);
+        return gatts;
     }
 
     private void sortGattify(){
         List<Gatt> gattsTmp = Gatt.listAll(Gatt.class);
         ArrayList<Gatt> gatts = new ArrayList<Gatt>(gattsTmp);
         // do comparator here
-
-
-
     }
+
+
+
 }
 
 

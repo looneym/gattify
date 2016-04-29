@@ -3,7 +3,7 @@ package com.example.micheal.assingment2;
 import android.content.Context;
 
 /**
- * Created by Micheal on 28/04/16.
+ * Helper class to perform DB-related functions
  */
 public class DBUtils {
 
