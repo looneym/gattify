@@ -27,31 +27,32 @@ public class TableActivity extends AppCompatActivity {
     private static final int LARGE_MOVE = 60;
     int cellWidth;
     TableLayout myTable;
-    private GestureDetector gestureDetector;
+    GestureDetector gestureDetector;
     private final int DELETE_ITEM = 1, DELETE_ALL = 2, ID_TEXT3 = 3;
 
+    // Required to register swipe gestures while using a scrollable view container
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev){
+        super.dispatchTouchEvent(ev);
+        return gestureDetector.onTouchEvent(ev);
+    }
 
+    // onTouchEvent required for onFling to be invoked (gestures)
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        System.out.println("===========onTOuchEvent methd============");
+        System.out.println("In onTouchEvent");
+        return gestureDetector.onTouchEvent(event); // ...pass to gestureDetector above
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.table);
 
-        // Ensures TableCells take up one third of the screen
-        DisplayMetrics metrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        int screenWidth = metrics.widthPixels;
-        cellWidth = screenWidth / 3;
-
-        // Prepare the TableLayout, retrieve the entities and call method to fill it
-        myTable = (TableLayout) findViewById(R.id.myTable);
-
-        populateTable(getGatts());
-
-        // Gesture detection and handling
-
         gestureDetector = new GestureDetector(this,
                 new GestureDetector.SimpleOnGestureListener() {
+
                     @Override
                     public boolean onFling(MotionEvent e1, MotionEvent e2,
                                            float velocityX, float velocityY) {
@@ -82,13 +83,21 @@ public class TableActivity extends AppCompatActivity {
                         return false; // works with true also
                     }
                 });
+
+        // Ensures TableCells take up one third of the screen
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        int screenWidth = metrics.widthPixels;
+        cellWidth = screenWidth / 3;
+
+        // Prepare the TableLayout, retrieve the entities and call method to fill it
+        myTable = (TableLayout) findViewById(R.id.myTable);
+
+        populateTable(getGatts());
+
     }
 
-    @Override // onTouchEvent required for onFling to be invoked...
-    public boolean onTouchEvent(MotionEvent event) {
-        System.out.println("In onTouchEvent");
-        return gestureDetector.onTouchEvent(event); // ...pass to gestureDetector above
-    }
+
 
     // Column names and click listeners for same
     private void populateTableHeaders() {
