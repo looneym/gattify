@@ -14,6 +14,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -35,72 +36,22 @@ public class TableActivity extends AppCompatActivity {
     GestureDetector gestureDetector;
     private final int DELETE_ITEM = 1, DELETE_ALL = 2, ID_TEXT3 = 3;
 
-    // Required to register swipe gestures while using a scrollable view container
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent ev){
-        super.dispatchTouchEvent(ev);
-        return gestureDetector.onTouchEvent(ev);
-    }
-
-    // onTouchEvent required for onFling to be invoked (gestures)
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        return gestureDetector.onTouchEvent(event); // ...pass to gestureDetector above
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.table);
 
-        TableLayout table = (TableLayout) findViewById(R.id.myTable);
-        table.setOnTouchListener(
-                new TableLayout.OnTouchListener(){
+        ScrollView sv = (ScrollView) findViewById(R.id.tableContainer);
+        sv.setOnTouchListener(
+                new ScrollView.OnTouchListener(){
                     @Override
                     public boolean onTouch(View v, MotionEvent m) {
                         handleTouch(m);
                         return true;
                     }
-
                 });
 
-
-
-        gestureDetector = new GestureDetector(this,
-                new GestureDetector.SimpleOnGestureListener() {
-
-                    @Override
-                    public boolean onFling(MotionEvent e1, MotionEvent e2,
-                                           float velocityX, float velocityY) {
-                        System.out.println("in onFling");
-                        if (e1.getY() - e2.getY() > LARGE_MOVE) {
-                            System.out.println("\nFling Up with velocity " + velocityY);
-                            moveLeft();
-                            return true;
-
-                        } else if (e2.getY() - e1.getY() > LARGE_MOVE) {
-                            System.out.println("\nFling Down with velocity " + velocityY);
-                            moveRight();
-                            return true;
-
-                        } else if (e1.getX() - e2.getX() > LARGE_MOVE) {
-
-                            System.out.println("\nFling Left with velocity " + velocityX);
-                            moveRight();
-                            return true;
-
-                        } else if (e2.getX() - e1.getX() > LARGE_MOVE) {
-                            System.out.println("\nFling Right with velocity "
-                                    + velocityX);
-
-                            moveLeft();
-
-                            return true;
-                        }
-
-                        return false; // works with true also
-                    }
-                });
 
         // Ensures TableCells take up one third of the screen
         DisplayMetrics metrics = new DisplayMetrics();
@@ -368,9 +319,7 @@ public class TableActivity extends AppCompatActivity {
             int action = m.getActionMasked();
             int actionIndex = m.getActionIndex();
             String actionString;
-            TextView tv = (TextView) findViewById(R.id.testDiffText);
             switch (action)
-
 
             {
                 case MotionEvent.ACTION_POINTER_UP:
@@ -378,36 +327,14 @@ public class TableActivity extends AppCompatActivity {
                     if (GLOBAL_TOUCH_POSITION_Y > GLOBAL_TOUCH_CURRENT_POSITION_Y) {
                         System.out.println("two finger swipe up");
                     } else {
-                        System.out.println("teo finger swipe down");
+                        System.out.println("two finger swipe down");
                     }
-                    break;A
-                case MotionEvent.ACTION_DOWN:
-                    System.out.println("DOWN");
-                    GLOBAL_TOUCH_POSITION_X = (int) m.getX(1);
-                    actionString = "DOWN"+" current "+GLOBAL_TOUCH_CURRENT_POSITION_X+" prev "+GLOBAL_TOUCH_POSITION_X;
-                    tv.setText(actionString);
-                    break;
-                case MotionEvent.ACTION_UP:
-                    System.out.println("UP");
-                    GLOBAL_TOUCH_CURRENT_POSITION_X = 0;
-                    actionString = "UP"+" current "+GLOBAL_TOUCH_CURRENT_POSITION_X+" prev "+GLOBAL_TOUCH_POSITION_X;
-                    tv.setText(actionString);
-                    break;
-                case MotionEvent.ACTION_MOVE:
-                    GLOBAL_TOUCH_CURRENT_POSITION_X = (int) m.getX(1);
-                    int diff = GLOBAL_TOUCH_POSITION_X-GLOBAL_TOUCH_CURRENT_POSITION_X;
-                    actionString = "Diff "+diff+" current "+GLOBAL_TOUCH_CURRENT_POSITION_X+" prev "+GLOBAL_TOUCH_POSITION_X;
-                    tv.setText(actionString);
                     break;
                 case MotionEvent.ACTION_POINTER_DOWN:
-
                     GLOBAL_TOUCH_POSITION_X = (int) m.getX(1);
                     GLOBAL_TOUCH_POSITION_Y = (int) m.getY(1);
-                    actionString = "DOWN"+" current "+GLOBAL_TOUCH_CURRENT_POSITION_X+" prev "+GLOBAL_TOUCH_POSITION_X;
-                    tv.setText(actionString);
                     break;
                 default:
-                    actionString = "";
             }
 
             pointerCount = 0;
