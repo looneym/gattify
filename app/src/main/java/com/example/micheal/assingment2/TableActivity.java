@@ -24,6 +24,11 @@ import java.util.List;
  * Activity Class to display a TableLayout of Gatt entities and perform CRUD operations, sorting etc.
  */
 public class TableActivity extends AppCompatActivity {
+    int GLOBAL_TOUCH_POSITION_X = 0;
+    int GLOBAL_TOUCH_CURRENT_POSITION_X = 0;
+    int GLOBAL_TOUCH_CURRENT_POSITION_Y = 0;
+    int GLOBAL_TOUCH_POSITION_Y = 0;
+
     private static final int LARGE_MOVE = 20;
     int cellWidth;
     TableLayout myTable;
@@ -47,6 +52,19 @@ public class TableActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.table);
+
+        TableLayout table = (TableLayout) findViewById(R.id.myTable);
+        table.setOnTouchListener(
+                new TableLayout.OnTouchListener(){
+                    @Override
+                    public boolean onTouch(View v, MotionEvent m) {
+                        handleTouch(m);
+                        return true;
+                    }
+
+                });
+
+
 
         gestureDetector = new GestureDetector(this,
                 new GestureDetector.SimpleOnGestureListener() {
@@ -341,6 +359,65 @@ public class TableActivity extends AppCompatActivity {
         List<Gatt> gattsTmp = Gatt.listAll(Gatt.class);
         ArrayList<Gatt> gatts = new ArrayList<Gatt>(gattsTmp);
         // do comparator here
+    }
+
+    void handleTouch(MotionEvent m){
+        //Number of touches
+        int pointerCount = m.getPointerCount();
+        if(pointerCount == 2){
+            int action = m.getActionMasked();
+            int actionIndex = m.getActionIndex();
+            String actionString;
+            TextView tv = (TextView) findViewById(R.id.testDiffText);
+            switch (action)
+
+
+            {
+                case MotionEvent.ACTION_POINTER_UP:
+                    GLOBAL_TOUCH_CURRENT_POSITION_Y = (int) m.getY(1);
+                    if (GLOBAL_TOUCH_POSITION_Y > GLOBAL_TOUCH_CURRENT_POSITION_Y) {
+                        System.out.println("two finger swipe up");
+                    } else {
+                        System.out.println("teo finger swipe down");
+                    }
+                    break;A
+                case MotionEvent.ACTION_DOWN:
+                    System.out.println("DOWN");
+                    GLOBAL_TOUCH_POSITION_X = (int) m.getX(1);
+                    actionString = "DOWN"+" current "+GLOBAL_TOUCH_CURRENT_POSITION_X+" prev "+GLOBAL_TOUCH_POSITION_X;
+                    tv.setText(actionString);
+                    break;
+                case MotionEvent.ACTION_UP:
+                    System.out.println("UP");
+                    GLOBAL_TOUCH_CURRENT_POSITION_X = 0;
+                    actionString = "UP"+" current "+GLOBAL_TOUCH_CURRENT_POSITION_X+" prev "+GLOBAL_TOUCH_POSITION_X;
+                    tv.setText(actionString);
+                    break;
+                case MotionEvent.ACTION_MOVE:
+                    GLOBAL_TOUCH_CURRENT_POSITION_X = (int) m.getX(1);
+                    int diff = GLOBAL_TOUCH_POSITION_X-GLOBAL_TOUCH_CURRENT_POSITION_X;
+                    actionString = "Diff "+diff+" current "+GLOBAL_TOUCH_CURRENT_POSITION_X+" prev "+GLOBAL_TOUCH_POSITION_X;
+                    tv.setText(actionString);
+                    break;
+                case MotionEvent.ACTION_POINTER_DOWN:
+
+                    GLOBAL_TOUCH_POSITION_X = (int) m.getX(1);
+                    GLOBAL_TOUCH_POSITION_Y = (int) m.getY(1);
+                    actionString = "DOWN"+" current "+GLOBAL_TOUCH_CURRENT_POSITION_X+" prev "+GLOBAL_TOUCH_POSITION_X;
+                    tv.setText(actionString);
+                    break;
+                default:
+                    actionString = "";
+            }
+
+            pointerCount = 0;
+        }
+        else {
+            GLOBAL_TOUCH_POSITION_X = 0;
+            GLOBAL_TOUCH_CURRENT_POSITION_X = 0;
+            GLOBAL_TOUCH_POSITION_Y = 0;
+            GLOBAL_TOUCH_CURRENT_POSITION_Y = 0;
+        }
     }
 
 

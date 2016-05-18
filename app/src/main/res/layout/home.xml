@@ -139,7 +139,6 @@
         android:id="@+id/alcSeekBar"
         android:indeterminate="false"
         android:max="100"
-        android:progress="1"
         android:layout_weight="0.14" />
 
 
@@ -147,28 +146,38 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/alcPercSeekValue"
-        android:layout_weight="0.17"
+        android:layout_weight="0.25"
         android:layout_gravity="center_horizontal" />
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="47dp"
         android:layout_gravity="center_horizontal"
-        android:layout_weight="0.12"
         android:weightSum="1">
 
         <Button
-            android:layout_width="193dp"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Compare Gatts"
+            android:id="@+id/compareButton"
+            android:textColor="#ffffff"
+            android:background="#517C62"
+            android:paddingLeft="10dp" />
+
+        <Button
+            android:layout_width="150dp"
+            android:layout_height="62dp"
             android:text="Add Gatt"
             android:id="@+id/runCalculation"
             android:textColor="#ffffff"
             android:background="#517C62" />
 
+
+
         <Button
             android:layout_width="fill_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:text="show gatts"
             android:id="@+id/showTableButton"
             android:textColor="#ffffff"
