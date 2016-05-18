@@ -19,27 +19,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Help"
-                android:id="@+id/helpMenu"
+                android:text="Menu"
+                android:id="@+id/settingsMenu"
+                android:textColor="#3f3f3f"
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
-                android:layout_marginRight="35dp"
-                android:layout_marginEnd="35dp"
-                android:textColor="#3f3f3f" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Settings"
-                android:id="@+id/settingsMenu"
-                android:layout_marginRight="40dp"
-                android:layout_marginEnd="40dp"
-                android:layout_alignTop="@+id/helpMenu"
-                android:layout_toLeftOf="@+id/helpMenu"
-                android:layout_toStartOf="@+id/helpMenu"
-                android:textColor="#3f3f3f" />
+                android:layout_marginRight="34dp"
+                android:layout_marginEnd="34dp" />
 
             <ImageView
                 android:layout_width="75dp"
@@ -167,7 +154,7 @@
 
         <Button
             android:layout_width="150dp"
-            android:layout_height="62dp"
+            android:layout_height="wrap_content"
             android:text="Add Gatt"
             android:id="@+id/runCalculation"
             android:textColor="#ffffff"

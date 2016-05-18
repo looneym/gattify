@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.view.ContextMenu;
@@ -18,6 +19,8 @@ import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,7 +37,7 @@ public class TableActivity extends AppCompatActivity {
     int cellWidth;
     TableLayout myTable;
     GestureDetector gestureDetector;
-    private final int DELETE_ITEM = 1, DELETE_ALL = 2, ID_TEXT3 = 3;
+    private final int DELETE_ITEM = 1, DELETE_ALL = 2, SHARE = 3;
 
 
     @Override
@@ -211,6 +214,7 @@ public class TableActivity extends AppCompatActivity {
                     setIntent(getIntent().putExtra("id", id));
                     setIntent(getIntent().putExtra("name", name));
 
+
                     // Voodoo magic
                     registerForContextMenu(v);
                     openContextMenu(v);
@@ -254,6 +258,7 @@ public class TableActivity extends AppCompatActivity {
 
         MenuItem item1 = menu.add(0, DELETE_ITEM, 0, "Delete");
         MenuItem item2 = menu.add(0, DELETE_ALL, 2, "Delete All");
+        MenuItem item3 = menu.add(0, SHARE, 3, "Share");
 
     }
 
@@ -278,6 +283,11 @@ public class TableActivity extends AppCompatActivity {
                 Gatt.deleteAll(Gatt.class);
                 populateTable(getGatts());
                 return true;
+            case SHARE:
+                Gatt gatt = Gatt.findById(Gatt.class, id);
+                share(gatt);
+                return true;
+
 
         }
         return super.onContextItemSelected(item);
@@ -326,8 +336,10 @@ public class TableActivity extends AppCompatActivity {
                     GLOBAL_TOUCH_CURRENT_POSITION_Y = (int) m.getY(1);
                     if (GLOBAL_TOUCH_POSITION_Y > GLOBAL_TOUCH_CURRENT_POSITION_Y) {
                         System.out.println("two finger swipe up");
+                        clearTable();
                     } else {
                         System.out.println("two finger swipe down");
+
                     }
                     break;
                 case MotionEvent.ACTION_POINTER_DOWN:
@@ -345,6 +357,24 @@ public class TableActivity extends AppCompatActivity {
             GLOBAL_TOUCH_POSITION_Y = 0;
             GLOBAL_TOUCH_CURRENT_POSITION_Y = 0;
         }
+    }
+
+    void clearTable(){
+        Gatt.deleteAll(Gatt.class);
+        Intent showTableActivity = new Intent(TableActivity.this, TableActivity.class);
+        startActivity(showTableActivity);
+    }
+
+    void share(Gatt gatt){
+        String gName = gatt.getName();
+        String gScore = String.valueOf(gatt.getScore());
+        String message = "Check out this awesome deal I found using Gattify! " + gName + " " + gScore;
+        System.out.println(message);
+        Intent share = new Intent(Intent.ACTION_SEND);
+        share.setType("text/plain");
+        share.putExtra(Intent.EXTRA_TEXT, message);
+
+        startActivity(Intent.createChooser(share, "Share your Gatt with the world"));
     }
 
 

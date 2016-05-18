@@ -239,7 +239,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void showTableActivity(){
         Intent showTableActivity = new Intent(MainActivity.this, TableActivity.class);
-//        Intent showTableActivity = new Intent(MainActivity.this, SwipeActivity.class);
         startActivity(showTableActivity);
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
