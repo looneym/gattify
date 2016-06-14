@@ -31,12 +31,10 @@ public class TableActivity extends AppCompatActivity {
 
     int cellWidth;
     TableLayout myTable;
-<<<<<<< HEAD
-    private final int DELETE_ITEM = 1, DELETE_ALL = 2, SHARE = 3;
-=======
+
     GestureDetector gestureDetector;
     private final int DELETE_ITEM = 1, DELETE_ALL = 2, SHARE = 3, COMPARE = 4;
->>>>>>> b7c7d6448cfb147446b6d561920aa935449f9512
+
 
 
     @Override

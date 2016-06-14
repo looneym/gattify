@@ -3,9 +3,12 @@ package com.example.micheal.assingment2;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.PopupMenu;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -20,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private String selectedGattType = "whatever";
     private int gattPercentage;
     private double gattUnits;
+    private TextView mainActivityMenuButton;
 
 
     @Override
@@ -28,11 +32,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.home);
 
 
-<<<<<<< HEAD
+
         /////////////// Register buttons for swithing activities, menus etc.
-=======
-        /////////////// Activity switch
->>>>>>> b7c7d6448cfb147446b6d561920aa935449f9512
+
 
         final Button showTable = (Button) findViewById(R.id.showTableButton);
         showTable.setOnClickListener(new View.OnClickListener() {
@@ -42,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        final TextView mainActivityMenuButton = (TextView) findViewById(R.id.mainActivityMenuButton);
+        mainActivityMenuButton = (TextView) findViewById(R.id.mainActivityMenuButton);
         mainActivityMenuButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -53,11 +55,23 @@ public class MainActivity extends AppCompatActivity {
         final Button runIt = (Button) findViewById(R.id.createGattButton);
         runIt.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {createGatt();    }
+            public void onClick(View v) {
+                createGatt();
+            }
         });
 
 
-<<<<<<< HEAD
+
+
+
+
+
+
+
+
+
+
+
         //////////////// SEEK BAR
 
         alcPercSeek = (TextView) findViewById(R.id.alcPercSeekValue);
@@ -92,13 +106,6 @@ public class MainActivity extends AppCompatActivity {
                 }
 
 
-=======
->>>>>>> b7c7d6448cfb147446b6d561920aa935449f9512
-
-
-
-
-                // if (fromUser)
 
             }
 
@@ -171,7 +178,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void showMenu(){
+
         System.out.println("Menu pressed");
+        PopupMenu pm = new PopupMenu(getApplicationContext(), mainActivityMenuButton);
+        MenuInflater mi = new MenuInflater(getApplicationContext());
+        mi.inflate(R.menu.test_menu, pm.getMenu());
+        pm.show();
     }
 
     public void moveLeft(){}
