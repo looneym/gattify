@@ -20,7 +20,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Menu"
-                android:id="@+id/settingsMenu"
+                android:id="@+id/mainActivityMenuButton"
                 android:textColor="#3f3f3f"
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
@@ -34,7 +34,7 @@
                 android:src="@drawable/beer"
                 android:layout_marginLeft="21dp"
                 android:layout_marginStart="21dp"
-                android:layout_alignBottom="@+id/settingsMenu"
+                android:layout_alignBottom="@+id/mainActivityMenuButton"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true" />
         </RelativeLayout>
@@ -78,28 +78,6 @@
             android:id="@+id/volumeInput"
             android:layout_weight="0.75" />
 
-        <RadioGroup
-            android:layout_width="wrap_content"
-            android:layout_height="74dp"
-            android:paddingTop="5dp">
-
-
-
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="ml"
-                android:id="@+id/mlRB"
-                android:checked="false" />
-
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="cl"
-                android:id="@+id/clRB"
-                android:checked="false" />
-
-        </RadioGroup>
     </LinearLayout>
 
     <EditText
@@ -125,7 +103,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/alcSeekBar"
         android:indeterminate="false"
-        android:max="100"
         android:layout_weight="0.14" />
 
 
@@ -144,28 +121,20 @@
         android:weightSum="1">
 
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Compare Gatts"
-            android:id="@+id/compareButton"
-            android:textColor="#ffffff"
-            android:background="#517C62"
-            android:paddingLeft="10dp" />
-
-        <Button
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:text="Add Gatt"
-            android:id="@+id/runCalculation"
+            android:id="@+id/createGattButton"
             android:textColor="#ffffff"
-            android:background="#517C62" />
+            android:background="#517C62"
+            android:layout_weight="1.11" />
 
 
 
         <Button
-            android:layout_width="fill_parent"
+            android:layout_width="196dp"
             android:layout_height="wrap_content"
-            android:text="show gatts"
+            android:text="show gatts >"
             android:id="@+id/showTableButton"
             android:textColor="#ffffff"
             android:background="#517C62" />

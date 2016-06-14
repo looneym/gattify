@@ -28,32 +28,32 @@ import java.util.List;
  * Activity Class to display a TableLayout of Gatt entities and perform CRUD operations, sorting etc.
  */
 public class TableActivity extends AppCompatActivity {
-    int GLOBAL_TOUCH_POSITION_X = 0;
-    int GLOBAL_TOUCH_CURRENT_POSITION_X = 0;
-    int GLOBAL_TOUCH_CURRENT_POSITION_Y = 0;
-    int GLOBAL_TOUCH_POSITION_Y = 0;
 
-    private static final int LARGE_MOVE = 20;
     int cellWidth;
     TableLayout myTable;
-    GestureDetector gestureDetector;
     private final int DELETE_ITEM = 1, DELETE_ALL = 2, SHARE = 3;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.table);
+        setContentView(R.layout.results_activity);
+
+        ///// BUTTON
+
+        Button BTNShowMainActivity = (Button) findViewById(R.id.showMainActivity);
+
+        BTNShowMainActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                showMainActivity();
+
+
+            }
+        });
 
         ScrollView sv = (ScrollView) findViewById(R.id.tableContainer);
-        sv.setOnTouchListener(
-                new ScrollView.OnTouchListener(){
-                    @Override
-                    public boolean onTouch(View v, MotionEvent m) {
-                        handleTouch(m);
-                        return true;
-                    }
-                });
 
 
         // Ensures TableCells take up one third of the screen
@@ -66,68 +66,6 @@ public class TableActivity extends AppCompatActivity {
         myTable = (TableLayout) findViewById(R.id.myTable);
 
         populateTable(getGatts());
-
-    }
-
-
-
-    // Column names and click listeners for same
-    private void populateTableHeaders() {
-
-
-        // LEFT
-
-        TextView tvLeft = new TextView(TableActivity.this);
-        tvLeft.setText("Name");
-        tvLeft.setTextSize(30);
-        tvLeft.setMaxWidth(cellWidth);
-        tvLeft.setPadding(50, 50, 0, 0);
-        tvLeft.setGravity(Gravity.CENTER);
-        tvLeft.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                System.out.println("Sort Name");
-            }
-        });
-
-        // CENTER
-
-        TextView tvCenter = new TextView(TableActivity.this);
-        tvCenter.setText("Price");
-        tvCenter.setMaxWidth(cellWidth);
-        tvCenter.setTextSize(30);
-        tvCenter.setPadding(0, 50, 0, 0);
-        tvCenter.setGravity(Gravity.CENTER);
-        tvCenter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                System.out.println("Sort Price");
-            }
-        });
-
-        // RIGHT
-
-        TextView tvRight = new TextView(TableActivity.this);
-        tvRight.setText("Score");
-        tvRight.setMaxWidth(cellWidth);
-        tvRight.setTextSize(30);
-        tvRight.setPadding(0, 50, 50, 0);
-        tvRight.setGravity(Gravity.CENTER);
-        tvRight.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                System.out.println("Sort Gattify Score");
-            }
-        });
-
-        // Table row creation and insertion
-
-        TableRow tr = new TableRow(TableActivity.this);
-        tr.addView(tvLeft);
-        tr.addView(tvCenter);
-        tr.addView(tvRight);
-        tr.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT));
-        myTable.addView(tr);
 
     }
 
@@ -236,6 +174,72 @@ public class TableActivity extends AppCompatActivity {
         }
     }
 
+    // Column names and click listeners for same
+    // Note this method is called by populateTable each time it runs
+    private void populateTableHeaders() {
+
+
+        // LEFT
+
+        TextView tvLeft = new TextView(TableActivity.this);
+        tvLeft.setText("Name");
+        tvLeft.setTextSize(30);
+        tvLeft.setMaxWidth(cellWidth);
+        tvLeft.setPadding(50, 50, 0, 0);
+        tvLeft.setGravity(Gravity.CENTER);
+        tvLeft.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("Sort Name");
+            }
+        });
+
+        // CENTER
+
+        TextView tvCenter = new TextView(TableActivity.this);
+        tvCenter.setText("Price");
+        tvCenter.setMaxWidth(cellWidth);
+        tvCenter.setTextSize(30);
+        tvCenter.setPadding(0, 50, 0, 0);
+        tvCenter.setGravity(Gravity.CENTER);
+        tvCenter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("Sort Price");
+            }
+        });
+
+        // RIGHT
+
+        TextView tvRight = new TextView(TableActivity.this);
+        tvRight.setText("Score");
+        tvRight.setMaxWidth(cellWidth);
+        tvRight.setTextSize(30);
+        tvRight.setPadding(0, 50, 50, 0);
+        tvRight.setGravity(Gravity.CENTER);
+        tvRight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("Sort Gattify Score");
+            }
+        });
+
+        // Table row creation and insertion
+
+        TableRow tr = new TableRow(TableActivity.this);
+        tr.addView(tvLeft);
+        tr.addView(tvCenter);
+        tr.addView(tvRight);
+        tr.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT));
+        myTable.addView(tr);
+
+    }
+
+    // This method is called to create the context menu for each Gatt item in the list
+    // This method deals with the content of the menu and registering menu items with
+    // constants which will later be used to initiate behaviour
+    // Behaviour is handled in onContextItemSelected(). These two methods pass around
+    // information using intents.
     @Override
     public void onCreateContextMenu(ContextMenu menu, View tr,
                                     ContextMenu.ContextMenuInfo menuInfo) {
@@ -249,7 +253,12 @@ public class TableActivity extends AppCompatActivity {
         // Context menu header/title
 
         TextView gattDetails = new TextView(this);
-        gattDetails.setText("Gatt Object \n" + "name: " + name + "\n" + "id: " + id.toString());
+        gattDetails.setText("Gatt Object \n"
+                + "name: "
+                + name
+                + "\n"
+                + "id: "
+                + id.toString());
         gattDetails.setTextSize(20);
         gattDetails.setGravity(Gravity.CENTER);
         menu.setHeaderView(gattDetails);
@@ -262,7 +271,7 @@ public class TableActivity extends AppCompatActivity {
 
     }
 
-    // Handler logic for context menu items
+    // Behaviour for the menu items outlined above
     @Override
     public boolean onContextItemSelected(MenuItem item) {
 
@@ -294,27 +303,23 @@ public class TableActivity extends AppCompatActivity {
     }
 
     // Activity change - Main Page
-    private void showMainPage() {
+    private void showMainActivity() {
         System.out.println("showmain");
         Intent showMainActivity = new Intent(TableActivity.this, MainActivity.class);
         startActivity(showMainActivity);
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 
-    // Gesture catcher methods
 
-    private void moveRight() {
-        // NO LOGIC YET
-    }
-
-    private void moveLeft() {
-        showMainPage();
-    }
-
+    // This section of code interacts with the Gatt models.
+    // CRUD, comparitors etc.
     private List<Gatt> getGatts(){
         List<Gatt> gatts = Gatt.listAll(Gatt.class);
         return gatts;
     }
+
+    // This section of code deals with table manipulation: sorting,
+    // cleating all rows etc.
 
     private void sortGattify(){
         List<Gatt> gattsTmp = Gatt.listAll(Gatt.class);
@@ -322,48 +327,14 @@ public class TableActivity extends AppCompatActivity {
         // do comparator here
     }
 
-    void handleTouch(MotionEvent m){
-        //Number of touches
-        int pointerCount = m.getPointerCount();
-        if(pointerCount == 2){
-            int action = m.getActionMasked();
-            int actionIndex = m.getActionIndex();
-            String actionString;
-            switch (action)
-
-            {
-                case MotionEvent.ACTION_POINTER_UP:
-                    GLOBAL_TOUCH_CURRENT_POSITION_Y = (int) m.getY(1);
-                    if (GLOBAL_TOUCH_POSITION_Y > GLOBAL_TOUCH_CURRENT_POSITION_Y) {
-                        System.out.println("two finger swipe up");
-                        clearTable();
-                    } else {
-                        System.out.println("two finger swipe down");
-
-                    }
-                    break;
-                case MotionEvent.ACTION_POINTER_DOWN:
-                    GLOBAL_TOUCH_POSITION_X = (int) m.getX(1);
-                    GLOBAL_TOUCH_POSITION_Y = (int) m.getY(1);
-                    break;
-                default:
-            }
-
-            pointerCount = 0;
-        }
-        else {
-            GLOBAL_TOUCH_POSITION_X = 0;
-            GLOBAL_TOUCH_CURRENT_POSITION_X = 0;
-            GLOBAL_TOUCH_POSITION_Y = 0;
-            GLOBAL_TOUCH_CURRENT_POSITION_Y = 0;
-        }
-    }
 
     void clearTable(){
         Gatt.deleteAll(Gatt.class);
         Intent showTableActivity = new Intent(TableActivity.this, TableActivity.class);
         startActivity(showTableActivity);
     }
+
+    // Sharing features
 
     void share(Gatt gatt){
         String gName = gatt.getName();
@@ -373,9 +344,11 @@ public class TableActivity extends AppCompatActivity {
         Intent share = new Intent(Intent.ACTION_SEND);
         share.setType("text/plain");
         share.putExtra(Intent.EXTRA_TEXT, message);
-
         startActivity(Intent.createChooser(share, "Share your Gatt with the world"));
+
     }
+
+
 
 
 

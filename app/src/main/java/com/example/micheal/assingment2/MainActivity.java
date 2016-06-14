@@ -1,51 +1,26 @@
 package com.example.micheal.assingment2;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.DisplayMetrics;
-import android.view.GestureDetector;
-import android.view.Gravity;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RelativeLayout;
 import android.widget.SeekBar;
-import android.widget.Spinner;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
-
-import com.orm.dsl.Table;
 
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    private TextView alcPercSeekValue;
+    private TextView alcPercSeek;
     private SeekBar alcSeekBar;
-    Spinner alcoholType;
     private String gattName;
     private double gattPrice;
     private double gattVolume;
     private String selectedGattType = "whatever";
     private int gattPercentage;
     private double gattUnits;
-    private boolean ml;
-    private  final String[] alcoholTypes = { "Beer", "Wine", "Spirit" };
-    private static final int LARGE_MOVE = 20;
-    private GestureDetector gestureDetector;
 
-    @Override // onTouchEvent required for onFling to be invoked...
-    public boolean onTouchEvent(MotionEvent event) {
-        System.out.println("In onTouchEvent");
-        return gestureDetector.onTouchEvent(event); // ...pass to gestureDetector above
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,48 +28,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.home);
 
 
-
-
-        //////// Gestures
-
-        gestureDetector = new GestureDetector(this,
-                new GestureDetector.SimpleOnGestureListener() {
-                    @Override
-                    public boolean onFling(MotionEvent e1, MotionEvent e2,
-                                           float velocityX, float velocityY) {
-                        System.out.println("in onFling");
-                        if (e1.getY() - e2.getY() > LARGE_MOVE) {
-                            System.out.println("\nFling Up with velocity " + velocityY);
-                            moveLeft();
-                            return true;
-
-                        } else if (e2.getY() - e1.getY() > LARGE_MOVE) {
-                            System.out.println("\nFling Down with velocity " + velocityY);
-                            moveRight();
-                            return true;
-
-                        } else if (e1.getX() - e2.getX() > LARGE_MOVE) {
-
-                            System.out.println("\nFling Left with velocity " + velocityX);
-                            moveRight();
-                            return true;
-
-                        } else if (e2.getX() - e1.getX() > LARGE_MOVE) {
-                            System.out.println("\nFling Right with velocity "
-                                    + velocityX);
-
-                            moveLeft();
-
-                            return true;
-                        }
-
-                        return false; // works with true also
-                    }
-                });
-
-
-
-        /////////////// Activity switch
+        /////////////// Register buttons for swithing activities, menus etc.
 
         final Button showTable = (Button) findViewById(R.id.showTableButton);
         showTable.setOnClickListener(new View.OnClickListener() {
@@ -104,49 +38,67 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        final TextView mainActivityMenuButton = (TextView) findViewById(R.id.mainActivityMenuButton);
+        mainActivityMenuButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showMenu();
+            }
+        });
+
+        final Button runIt = (Button) findViewById(R.id.createGattButton);
+        runIt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {createGatt();    }
+        });
+
+
         //////////////// SEEK BAR
 
-        alcPercSeekValue = (TextView) findViewById(R.id.alcPercSeekValue);
+        alcPercSeek = (TextView) findViewById(R.id.alcPercSeekValue);
+
         alcSeekBar = (SeekBar) findViewById(R.id.alcSeekBar);
+        alcSeekBar.setMax(1000);
+        alcSeekBar.incrementProgressBy(1);
         alcSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if (fromUser) alcPercSeekValue.setText("Alcohol Percentage = " + progress);
+                String alcPercString;
+
+                if (progress<10){
+                    alcPercString = Integer.toString(progress);
+                    alcPercString = alcPercString.substring(0, 1) + "." + alcPercString.substring(1, alcPercString.length());
+                    alcPercSeek.setText("Alcohol Percentage = " + alcPercString + "%");
+                }
+                if (progress>=10){
+                    alcPercString = Integer.toString(progress);
+                    alcPercString = alcPercString.substring(0, 1) + "." + alcPercString.substring(1, alcPercString.length());
+                    alcPercSeek.setText("Alcohol Percentage = " + alcPercString + "%");
+                }
+                if (progress>=100){
+                    alcPercString = Integer.toString(progress);
+                    alcPercString = alcPercString.substring(0, 2) + "." + alcPercString.substring(2, alcPercString.length());
+                    alcPercSeek.setText("Alcohol Percentage = " + alcPercString + "%");
+                }
+                if (progress==1000){
+                    alcPercString = Integer.toString(progress);
+//                    alcPercString = alcPercString.substring(0, 3) + "." + alcPercString.substring(3, alcPercString.length());
+                    alcPercString = alcPercString.substring(0, 3);
+                    alcPercSeek.setText("Alcohol Percentage = " + alcPercString + "%");
+                }
+
+
+
+
+
+
+                // if (fromUser)
+
             }
 
             public void onStartTrackingTouch(SeekBar seekBar) { // OnSeekBarChangeListener
             }
 
             public void onStopTrackingTouch(SeekBar seekBar) { // OnSeekBarChangeListener
-            }
-        });
-
-
-        //////////////// SPINNER
-
-
-//        alcoholType = (Spinner) findViewById(R.id.spinner);
-//
-//        ArrayAdapter<String> mAdapter = new ArrayAdapter<String>(this,
-//                R.layout.spinner_entry, alcoholTypes);
-//
-//        mAdapter.setDropDownViewResource(R.layout.spinner_entry);
-//        alcoholType.setAdapter(mAdapter);
-
-
-
-
-
-        ///// BUTTON
-
-        Button runIt = (Button) findViewById(R.id.runCalculation);
-
-        runIt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                createGatt();
-
-
             }
         });
 
@@ -159,31 +111,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void createGatt(){
-
-
-        ///////////////// Radio
-
-        final RadioButton rbutton[] = {(RadioButton) findViewById(R.id.mlRB),
-                (RadioButton) findViewById(R.id.clRB)};
-
-        rbutton[0].setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                if (((RadioButton) v).isChecked()) {
-                    ml = true;
-
-                }
-            }
-        });
-
-        rbutton[1].setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                if (((RadioButton) v).isChecked()) {
-                    ml = false;
-
-                }
-            }
-        });
-
 
 
 
@@ -215,12 +142,10 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        // The spinner doesn't have an onClick to update the variable when it's state changes so we grab it now
-//        selectedGattType = alcoholType.getSelectedItem().toString();
-        // same for the seek bar
+        // The seek bar doesn't have an onClick to update the variable when it's state changes so we grab it now
         gattPercentage = alcSeekBar.getProgress();
 
-        Gatt userGatt = new Gatt(gattName, selectedGattType, gattPercentage, gattVolume , gattPrice, ml, gattUnits );
+        Gatt userGatt = new Gatt(gattName, selectedGattType, gattPercentage, gattVolume , gattPrice,  gattUnits );
 
         System.out.println(userGatt);
 
@@ -229,9 +154,7 @@ public class MainActivity extends AppCompatActivity {
         System.out.println("contents of DB:");
         List<Gatt> gatts =  Gatt.listAll(Gatt.class);
         System.out.println(gatts);
-//        for (Gatt gatt : gatts){
-//            System.out.println(gatt);
-//        }
+
 
     }
 
@@ -241,6 +164,10 @@ public class MainActivity extends AppCompatActivity {
         Intent showTableActivity = new Intent(MainActivity.this, TableActivity.class);
         startActivity(showTableActivity);
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+    }
+
+    public void showMenu(){
+        System.out.println("Menu pressed");
     }
 
     public void moveLeft(){}
