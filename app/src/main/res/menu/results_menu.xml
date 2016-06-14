@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/results_populate_examples"
+        android:title="Populate list with some examples"/>
+    <item android:id="@+id/results_remove_examples"
+        android:title="Remove examples"/>
+    <item android:id="@+id/results_clear_all"
+        android:title="Remove all" />
+</menu>

@@ -45,13 +45,9 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             }
         });
 
+        // The activity needs to know about this "Button" but the oncliclk logic is handled
+        // be registering it in XML and by the onMenuItemClick() and showMenu() methods
         mainActivityMenuButton = (TextView) findViewById(R.id.mainActivityMenuButton);
-//        mainActivityMenuButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                showMenu();
-//            }
-//        });
 
         final Button runIt = (Button) findViewById(R.id.createGattButton);
         runIt.setOnClickListener(new View.OnClickListener() {
@@ -60,17 +56,6 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                 createGatt();
             }
         });
-
-
-
-
-
-
-
-
-
-
-
 
 
         //////////////// SEEK BAR
@@ -125,9 +110,6 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     public void createGatt(){
 
 
-
-
-
         //////////// volume
 
         EditText volumeInput = (EditText) findViewById(R.id.volumeInput);
@@ -178,14 +160,6 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
-//    public void showMenu(){
-//
-//        System.out.println("Menu pressed");
-//        PopupMenu pm = new PopupMenu(getApplicationContext(), mainActivityMenuButton);
-//        MenuInflater mi = new MenuInflater(getApplicationContext());
-//        mi.inflate(R.menu.test_menu, pm.getMenu());
-//        pm.show();
-//    }
 
     public void showMenu(View v) {
 
@@ -193,18 +167,18 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         PopupMenu pm = new PopupMenu(getApplicationContext(), mainActivityMenuButton);
         MenuInflater mi = new MenuInflater(getApplicationContext());
         pm.setOnMenuItemClickListener(this);
-        mi.inflate(R.menu.test_menu, pm.getMenu());
+        mi.inflate(R.menu.home_menu, pm.getMenu());
         pm.show();
     }
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.testMenuItem1:
-                System.out.println("Menu item 1 pressed");
+            case R.id.home_help:
+                System.out.println("Help dialog");
                 return true;
-            case R.id.testMenuItem2:
-                System.out.println("Menu item 2 pressed");
+            case R.id.home_about:
+                System.out.println("About dialog");
                 return true;
             default:
                 return false;

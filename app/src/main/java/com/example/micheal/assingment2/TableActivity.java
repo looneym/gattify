@@ -10,11 +10,13 @@ import android.util.DisplayMetrics;
 import android.view.ContextMenu;
 import android.view.GestureDetector;
 import android.view.Gravity;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.PopupMenu;
 import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -27,10 +29,11 @@ import java.util.List;
 /**
  * Activity Class to display a TableLayout of Gatt entities and perform CRUD operations, sorting etc.
  */
-public class TableActivity extends AppCompatActivity {
+public class TableActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener{
 
     int cellWidth;
     TableLayout myTable;
+    TextView resultsActivityMenuButton;
 
     GestureDetector gestureDetector;
     private final int DELETE_ITEM = 1, DELETE_ALL = 2, SHARE = 3, COMPARE = 4;
@@ -55,6 +58,10 @@ public class TableActivity extends AppCompatActivity {
 
             }
         });
+
+        // The activity needs to know about this "Button" but the oncliclk logic is handled
+        // be registering it in XML and by the onMenuItemClick() and showMenu() methods
+        resultsActivityMenuButton = (TextView) findViewById(R.id.resultsActivityMenuButton);
 
         ScrollView sv = (ScrollView) findViewById(R.id.tableContainer);
 
@@ -360,6 +367,33 @@ public class TableActivity extends AppCompatActivity {
         Intent showCompare = new Intent(TableActivity.this, DrawActivity.class);
         showCompare.putExtra("score", gatt.getScore());
         startActivity(showCompare);
+    }
+
+    public void showMenu(View v) {
+
+        System.out.println("Menu pressed");
+        PopupMenu pm = new PopupMenu(getApplicationContext(), resultsActivityMenuButton);
+        MenuInflater mi = new MenuInflater(getApplicationContext());
+        pm.setOnMenuItemClickListener(this);
+        mi.inflate(R.menu.results_menu, pm.getMenu());
+        pm.show();
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.results_populate_examples:
+                System.out.println("Populate examples");
+                return true;
+            case R.id.results_remove_examples:
+                System.out.println("Remove Examples");
+                return true;
+            case R.id.results_clear_all:
+                System.out.println("Clear All");
+                return true;
+            default:
+                return false;
+        }
     }
 
 
