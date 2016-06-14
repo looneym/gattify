@@ -25,8 +25,8 @@
 
     <activity android:name=".TableActivity">
     </activity>
-        <activity android:name=".SwipeActivity">
-    </activity>
+        <activity android:name=".DrawActivity">
+        </activity>
 
         <activity
             android:name=".MainActivity"

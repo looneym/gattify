@@ -37,7 +37,7 @@ public class TableActivity extends AppCompatActivity {
     int cellWidth;
     TableLayout myTable;
     GestureDetector gestureDetector;
-    private final int DELETE_ITEM = 1, DELETE_ALL = 2, SHARE = 3;
+    private final int DELETE_ITEM = 1, DELETE_ALL = 2, SHARE = 3, COMPARE = 4;
 
 
     @Override
@@ -259,6 +259,7 @@ public class TableActivity extends AppCompatActivity {
         MenuItem item1 = menu.add(0, DELETE_ITEM, 0, "Delete");
         MenuItem item2 = menu.add(0, DELETE_ALL, 2, "Delete All");
         MenuItem item3 = menu.add(0, SHARE, 3, "Share");
+        MenuItem item4 = menu.add(0, COMPARE, 3, "Compare");
 
     }
 
@@ -286,6 +287,10 @@ public class TableActivity extends AppCompatActivity {
             case SHARE:
                 Gatt gatt = Gatt.findById(Gatt.class, id);
                 share(gatt);
+                return true;
+            case COMPARE:
+                Gatt gattToCompare = Gatt.findById(Gatt.class, id);
+                compare(gattToCompare);
                 return true;
 
 
@@ -375,6 +380,12 @@ public class TableActivity extends AppCompatActivity {
         share.putExtra(Intent.EXTRA_TEXT, message);
 
         startActivity(Intent.createChooser(share, "Share your Gatt with the world"));
+    }
+
+    void compare(Gatt gatt){
+        Intent showCompare = new Intent(TableActivity.this, DrawActivity.class);
+        showCompare.putExtra("score", gatt.getScore());
+        startActivity(showCompare);
     }
 
 

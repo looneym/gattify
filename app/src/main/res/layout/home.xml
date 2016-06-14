@@ -78,28 +78,6 @@
             android:id="@+id/volumeInput"
             android:layout_weight="0.75" />
 
-        <RadioGroup
-            android:layout_width="wrap_content"
-            android:layout_height="74dp"
-            android:paddingTop="5dp">
-
-
-
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="ml"
-                android:id="@+id/mlRB"
-                android:checked="false" />
-
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="cl"
-                android:id="@+id/clRB"
-                android:checked="false" />
-
-        </RadioGroup>
     </LinearLayout>
 
     <EditText
@@ -144,26 +122,18 @@
         android:weightSum="1">
 
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Compare Gatts"
-            android:id="@+id/compareButton"
-            android:textColor="#ffffff"
-            android:background="#517C62"
-            android:paddingLeft="10dp" />
-
-        <Button
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:text="Add Gatt"
             android:id="@+id/runCalculation"
             android:textColor="#ffffff"
-            android:background="#517C62" />
+            android:background="#517C62"
+            android:layout_weight="1.11" />
 
 
 
         <Button
-            android:layout_width="fill_parent"
+            android:layout_width="196dp"
             android:layout_height="wrap_content"
             android:text="show gatts"
             android:id="@+id/showTableButton"

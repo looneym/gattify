@@ -17,7 +17,6 @@ public class Gatt extends SugarRecord {
     private double alcPerc;
     private double volume;
     private double price;
-    private boolean ml;
     private double score;
     private double units;
 
@@ -25,13 +24,12 @@ public class Gatt extends SugarRecord {
 
     public Gatt(){}
 
-    public Gatt(String name, String type, double alcPerc, double volume, double price, boolean ml, double units) {
+    public Gatt(String name, String type, double alcPerc, double volume, double price, double units) {
         this.name = name;
         this.type = type;
         this.alcPerc = alcPerc;
         this.volume = volume;
         this.price = price;
-        this.ml = ml;
         this.units= units;
         createScore();
     }
@@ -39,9 +37,6 @@ public class Gatt extends SugarRecord {
     // Helper methods
 
     private void createScore(){
-        if (ml){
-            volume = volume * 10;
-        }
         score = (alcPerc * volume * units) / price;
     }
 
@@ -97,14 +92,6 @@ public class Gatt extends SugarRecord {
         this.price = price;
     }
 
-    public boolean isMl() {
-        return ml;
-    }
-
-    public void setMl(boolean ml) {
-        this.ml = ml;
-    }
-
     public double getScore() {
         return score;
     }
@@ -132,7 +119,6 @@ public class Gatt extends SugarRecord {
                 ", alcPerc=" + alcPerc +
                 ", volume=" + volume +
                 ", price=" + price +
-                ", ml=" + ml +
                 '}';
     }
 }

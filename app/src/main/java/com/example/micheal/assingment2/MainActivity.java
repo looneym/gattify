@@ -29,69 +29,18 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     private TextView alcPercSeekValue;
     private SeekBar alcSeekBar;
-    Spinner alcoholType;
     private String gattName;
     private double gattPrice;
     private double gattVolume;
     private String selectedGattType = "whatever";
     private int gattPercentage;
     private double gattUnits;
-    private boolean ml;
-    private  final String[] alcoholTypes = { "Beer", "Wine", "Spirit" };
-    private static final int LARGE_MOVE = 20;
-    private GestureDetector gestureDetector;
 
-    @Override // onTouchEvent required for onFling to be invoked...
-    public boolean onTouchEvent(MotionEvent event) {
-        System.out.println("In onTouchEvent");
-        return gestureDetector.onTouchEvent(event); // ...pass to gestureDetector above
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home);
-
-
-
-
-        //////// Gestures
-
-        gestureDetector = new GestureDetector(this,
-                new GestureDetector.SimpleOnGestureListener() {
-                    @Override
-                    public boolean onFling(MotionEvent e1, MotionEvent e2,
-                                           float velocityX, float velocityY) {
-                        System.out.println("in onFling");
-                        if (e1.getY() - e2.getY() > LARGE_MOVE) {
-                            System.out.println("\nFling Up with velocity " + velocityY);
-                            moveLeft();
-                            return true;
-
-                        } else if (e2.getY() - e1.getY() > LARGE_MOVE) {
-                            System.out.println("\nFling Down with velocity " + velocityY);
-                            moveRight();
-                            return true;
-
-                        } else if (e1.getX() - e2.getX() > LARGE_MOVE) {
-
-                            System.out.println("\nFling Left with velocity " + velocityX);
-                            moveRight();
-                            return true;
-
-                        } else if (e2.getX() - e1.getX() > LARGE_MOVE) {
-                            System.out.println("\nFling Right with velocity "
-                                    + velocityX);
-
-                            moveLeft();
-
-                            return true;
-                        }
-
-                        return false; // works with true also
-                    }
-                });
-
 
 
         /////////////// Activity switch
@@ -121,19 +70,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        //////////////// SPINNER
-
-
-//        alcoholType = (Spinner) findViewById(R.id.spinner);
-//
-//        ArrayAdapter<String> mAdapter = new ArrayAdapter<String>(this,
-//                R.layout.spinner_entry, alcoholTypes);
-//
-//        mAdapter.setDropDownViewResource(R.layout.spinner_entry);
-//        alcoholType.setAdapter(mAdapter);
-
-
-
 
 
         ///// BUTTON
@@ -152,38 +88,10 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
-
-
 }
 
 
     public void createGatt(){
-
-
-        ///////////////// Radio
-
-        final RadioButton rbutton[] = {(RadioButton) findViewById(R.id.mlRB),
-                (RadioButton) findViewById(R.id.clRB)};
-
-        rbutton[0].setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                if (((RadioButton) v).isChecked()) {
-                    ml = true;
-
-                }
-            }
-        });
-
-        rbutton[1].setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                if (((RadioButton) v).isChecked()) {
-                    ml = false;
-
-                }
-            }
-        });
-
 
 
 
@@ -215,12 +123,10 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        // The spinner doesn't have an onClick to update the variable when it's state changes so we grab it now
-//        selectedGattType = alcoholType.getSelectedItem().toString();
-        // same for the seek bar
+        // The seek bar doesn't have an onClick to update the variable when it's state changes so we grab it now
         gattPercentage = alcSeekBar.getProgress();
 
-        Gatt userGatt = new Gatt(gattName, selectedGattType, gattPercentage, gattVolume , gattPrice, ml, gattUnits );
+        Gatt userGatt = new Gatt(gattName, selectedGattType, gattPercentage, gattVolume , gattPrice,  gattUnits );
 
         System.out.println(userGatt);
 
@@ -229,9 +135,7 @@ public class MainActivity extends AppCompatActivity {
         System.out.println("contents of DB:");
         List<Gatt> gatts =  Gatt.listAll(Gatt.class);
         System.out.println(gatts);
-//        for (Gatt gatt : gatts){
-//            System.out.println(gatt);
-//        }
+
 
     }
 
