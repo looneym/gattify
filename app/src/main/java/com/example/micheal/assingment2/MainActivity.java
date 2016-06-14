@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,7 +15,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener {
     private TextView alcPercSeek;
     private SeekBar alcSeekBar;
     private String gattName;
@@ -45,12 +46,12 @@ public class MainActivity extends AppCompatActivity {
         });
 
         mainActivityMenuButton = (TextView) findViewById(R.id.mainActivityMenuButton);
-        mainActivityMenuButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showMenu();
-            }
-        });
+//        mainActivityMenuButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                showMenu();
+//            }
+//        });
 
         final Button runIt = (Button) findViewById(R.id.createGattButton);
         runIt.setOnClickListener(new View.OnClickListener() {
@@ -177,14 +178,39 @@ public class MainActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
-    public void showMenu(){
+//    public void showMenu(){
+//
+//        System.out.println("Menu pressed");
+//        PopupMenu pm = new PopupMenu(getApplicationContext(), mainActivityMenuButton);
+//        MenuInflater mi = new MenuInflater(getApplicationContext());
+//        mi.inflate(R.menu.test_menu, pm.getMenu());
+//        pm.show();
+//    }
+
+    public void showMenu(View v) {
 
         System.out.println("Menu pressed");
         PopupMenu pm = new PopupMenu(getApplicationContext(), mainActivityMenuButton);
         MenuInflater mi = new MenuInflater(getApplicationContext());
+        pm.setOnMenuItemClickListener(this);
         mi.inflate(R.menu.test_menu, pm.getMenu());
         pm.show();
     }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.testMenuItem1:
+                System.out.println("Menu item 1 pressed");
+                return true;
+            case R.id.testMenuItem2:
+                System.out.println("Menu item 2 pressed");
+                return true;
+            default:
+                return false;
+        }
+    }
+
 
     public void moveLeft(){}
     public void moveRight(){showTableActivity();}
