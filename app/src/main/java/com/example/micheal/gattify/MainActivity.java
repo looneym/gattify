@@ -1,10 +1,12 @@
 package com.example.micheal.gattify;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.SpannableString;
+import android.text.method.LinkMovementMethod;
+import android.text.util.Linkify;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -177,10 +179,11 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         switch (item.getItemId()) {
             case com.example.micheal.gattify.R.id.home_help:
                 System.out.println("Help dialog");
+                showHelpDialog();
                 return true;
             case com.example.micheal.gattify.R.id.home_about:
                 System.out.println("About dialog");
-                showHelpDialog();
+                showAboutDialog();
                 return true;
             default:
                 return false;
@@ -188,14 +191,54 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     }
 
     public void showHelpDialog(){
-
         AlertDialog dialog = new AlertDialog.Builder(MainActivity.this ).create();
-        dialog.setMessage(
-                "Gattify alows you to compare different Alcohol products of varying " +
-                        "strengths, prices and alcohol contents to see which one " +
-                        "provides the most alcohol for the least money ");
+        final TextView message = (TextView)getLayoutInflater().inflate(R.layout.alert_dialog, null);
+        String t = new String( "A Gatt = an alcoholic drink of any kind. \n" +
+                        "\n"+
+                "Gattify alows you to compare different alcohol products of varying " +
+                        "strengths, prices and physical volumes to see which one " +
+                        "provides the most alcohol for the least money. \n " +
+                        " \n" +
+                        "Just enter your Gatt's details on this page and hit 'Add Gatt' to save it. \n" +
+                "\n" +
+                "Compare different Gatts you have added by " +
+                        "tapping the 'Show Gatts' button. \n" +
+                        "\n " +
+                        "Happy Gatting!  ");
+        final SpannableString s =
+                new SpannableString(t);
+        Linkify.addLinks(s, Linkify.ALL);
+        message.setText(s);
+        message.setMovementMethod(LinkMovementMethod.getInstance());
+        dialog.setView(message);
         dialog.show();
 
+    }
+
+    public void showAboutDialog(){
+        AlertDialog dialog = new AlertDialog.Builder(MainActivity.this ).create();
+        final TextView message = (TextView)getLayoutInflater().inflate(R.layout.alert_dialog, null);
+        String t = new String("Version 1.0.0 \n" +
+                "\n" +
+                "Developed with <3 by Micheál Looney \n" +
+                "\n" +
+                "Web: gattify.com \n" +
+                "\n" +
+                "Email: loonym.dev@gmail.com \n" +
+                "\n" +
+                "Github: github.com/looneym/ \n " +
+                "\n" +
+                "Linkedin: ie.linkedin.com/in/looneym \n " +
+                "\n" +
+                "Disclaimer : I am not responsible for ANYTHING you do as a result of using this App. This App is designed for easy comparison " +
+                        "of consumer products. Drink responsibly.");
+        final SpannableString s =
+                new SpannableString(t);
+        Linkify.addLinks(s, Linkify.ALL);
+        message.setText(s);
+        message.setMovementMethod(LinkMovementMethod.getInstance());
+        dialog.setView(message);
+        dialog.show();
 
     }
 
