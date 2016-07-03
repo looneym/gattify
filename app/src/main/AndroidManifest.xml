@@ -8,7 +8,7 @@
         android:label="Gattify"
         android:name="com.orm.SugarApp"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/beer"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 

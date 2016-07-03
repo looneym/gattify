@@ -153,10 +153,13 @@ public class TableActivity extends AppCompatActivity implements PopupMenu.OnMenu
                     String name = (tv.getText().toString());
                     Gatt g = (Gatt) tv.getTag();
                     Long id = g.getId();
+                    Double score = g.getScore();
+                    Double price = g.getPrice();
 
                     // Make available for retrieval
-                    setIntent(getIntent().putExtra("id", id));
+                    setIntent(getIntent().putExtra("price", price));
                     setIntent(getIntent().putExtra("name", name));
+                    setIntent(getIntent().putExtra("score", score));
 
 
                     // Voodoo magic
@@ -254,17 +257,20 @@ public class TableActivity extends AppCompatActivity implements PopupMenu.OnMenu
         // Get entity values
         Intent intent = getIntent();
         final String name = intent.getStringExtra("name");
-        final Long id = intent.getLongExtra("id", 0);
+        final Double price = intent.getDoubleExtra("price", 0);
+        final Long score = Math.round(intent.getDoubleExtra("score", 0));
 
         // Context menu header/title
 
         TextView gattDetails = new TextView(this);
-        gattDetails.setText("Gatt Object \n"
-                + "name: "
+        gattDetails.setText("name: "
                 + name
                 + "\n"
-                + "id: "
-                + id.toString());
+                + "price: "
+                + price.toString()
+                + "\n"
+                + "score: "
+                + score.toString());
         gattDetails.setTextSize(20);
         gattDetails.setGravity(Gravity.CENTER);
         menu.setHeaderView(gattDetails);
@@ -273,8 +279,6 @@ public class TableActivity extends AppCompatActivity implements PopupMenu.OnMenu
 
         MenuItem item1 = menu.add(0, DELETE_ITEM, 0, "Delete");
         MenuItem item2 = menu.add(0, DELETE_ALL, 2, "Delete All");
-        MenuItem item3 = menu.add(0, SHARE, 3, "Share");
-        MenuItem item4 = menu.add(0, COMPARE, 3, "Compare");
 
     }
 
@@ -376,14 +380,15 @@ public class TableActivity extends AppCompatActivity implements PopupMenu.OnMenu
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
-            case com.example.micheal.gattify.R.id.results_populate_examples:
-                System.out.println("Populate examples");
-                return true;
-            case com.example.micheal.gattify.R.id.results_remove_examples:
-                System.out.println("Remove Examples");
-                return true;
+//            case com.example.micheal.gattify.R.id.results_populate_examples:
+//                System.out.println("Populate examples");
+//                return true;
+//            case com.example.micheal.gattify.R.id.results_remove_examples:
+//                System.out.println("Remove Examples");
+//                return true;
             case com.example.micheal.gattify.R.id.results_clear_all:
                 System.out.println("Clear All");
+                clearTable();
                 return true;
             default:
                 return false;
