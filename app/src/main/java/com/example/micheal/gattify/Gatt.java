@@ -1,4 +1,4 @@
-package com.example.micheal.assingment2;
+package com.example.micheal.gattify;
 
 import com.orm.SugarRecord;
 import com.orm.dsl.Table;

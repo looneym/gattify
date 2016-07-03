@@ -1,9 +1,10 @@
-package com.example.micheal.assingment2;
+package com.example.micheal.gattify;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,14 +31,14 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.home);
+        setContentView(com.example.micheal.gattify.R.layout.home);
 
 
 
         /////////////// Register buttons for swithing activities, menus etc.
 
 
-        final Button showTable = (Button) findViewById(R.id.showTableButton);
+        final Button showTable = (Button) findViewById(com.example.micheal.gattify.R.id.showTableButton);
         showTable.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -47,9 +48,9 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
 
         // The activity needs to know about this "Button" but the oncliclk logic is handled
         // be registering it in XML and by the onMenuItemClick() and showMenu() methods
-        mainActivityMenuButton = (TextView) findViewById(R.id.mainActivityMenuButton);
+        mainActivityMenuButton = (TextView) findViewById(com.example.micheal.gattify.R.id.mainActivityMenuButton);
 
-        final Button runIt = (Button) findViewById(R.id.createGattButton);
+        final Button runIt = (Button) findViewById(com.example.micheal.gattify.R.id.createGattButton);
         runIt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -60,9 +61,9 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
 
         //////////////// SEEK BAR
 
-        alcPercSeek = (TextView) findViewById(R.id.alcPercSeekValue);
+        alcPercSeek = (TextView) findViewById(com.example.micheal.gattify.R.id.alcPercSeekValue);
 
-        alcSeekBar = (SeekBar) findViewById(R.id.alcSeekBar);
+        alcSeekBar = (SeekBar) findViewById(com.example.micheal.gattify.R.id.alcSeekBar);
         alcSeekBar.setMax(1000);
         alcSeekBar.incrementProgressBy(1);
         alcSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -112,25 +113,25 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
 
         //////////// volume
 
-        EditText volumeInput = (EditText) findViewById(R.id.volumeInput);
+        EditText volumeInput = (EditText) findViewById(com.example.micheal.gattify.R.id.volumeInput);
         gattVolume = Double.parseDouble(volumeInput.getText().toString());
 
 
 
         ////////////////////// price
 
-        EditText priceInput = (EditText) findViewById(R.id.priceInput);
+        EditText priceInput = (EditText) findViewById(com.example.micheal.gattify.R.id.priceInput);
         gattPrice = Double.parseDouble(priceInput.getText().toString());
 
 
         ////////////////////////// name
 
-        EditText nameInput = (EditText) findViewById(R.id.nameInput);
+        EditText nameInput = (EditText) findViewById(com.example.micheal.gattify.R.id.nameInput);
         gattName = nameInput.getText().toString();
 
         // units
 
-        EditText unitsInput = (EditText) findViewById(R.id.unitsInput);
+        EditText unitsInput = (EditText) findViewById(com.example.micheal.gattify.R.id.unitsInput);
         gattUnits = Double.parseDouble(unitsInput.getText().toString());
 
 
@@ -157,7 +158,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     public void showTableActivity(){
         Intent showTableActivity = new Intent(MainActivity.this, TableActivity.class);
         startActivity(showTableActivity);
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        overridePendingTransition(com.example.micheal.gattify.R.anim.slide_in_right, com.example.micheal.gattify.R.anim.slide_out_left);
     }
 
 
@@ -167,22 +168,35 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         PopupMenu pm = new PopupMenu(getApplicationContext(), mainActivityMenuButton);
         MenuInflater mi = new MenuInflater(getApplicationContext());
         pm.setOnMenuItemClickListener(this);
-        mi.inflate(R.menu.home_menu, pm.getMenu());
+        mi.inflate(com.example.micheal.gattify.R.menu.home_menu, pm.getMenu());
         pm.show();
     }
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.home_help:
+            case com.example.micheal.gattify.R.id.home_help:
                 System.out.println("Help dialog");
                 return true;
-            case R.id.home_about:
+            case com.example.micheal.gattify.R.id.home_about:
                 System.out.println("About dialog");
+                showHelpDialog();
                 return true;
             default:
                 return false;
         }
+    }
+
+    public void showHelpDialog(){
+
+        AlertDialog dialog = new AlertDialog.Builder(MainActivity.this ).create();
+        dialog.setMessage(
+                "Gattify alows you to compare different Alcohol products of varying " +
+                        "strengths, prices and alcohol contents to see which one " +
+                        "provides the most alcohol for the least money ");
+        dialog.show();
+
+
     }
 
 

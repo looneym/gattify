@@ -1,4 +1,4 @@
-package com.example.micheal.assingment2;
+package com.example.micheal.gattify;
 
 import android.content.Context;
 import android.graphics.Canvas;

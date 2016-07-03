@@ -1,10 +1,8 @@
-package com.example.micheal.assingment2;
+package com.example.micheal.gattify;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.view.ContextMenu;
@@ -12,7 +10,6 @@ import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -22,7 +19,6 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,11 +39,11 @@ public class TableActivity extends AppCompatActivity implements PopupMenu.OnMenu
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.results_activity);
+        setContentView(com.example.micheal.gattify.R.layout.results_activity);
 
         ///// BUTTON
 
-        Button BTNShowMainActivity = (Button) findViewById(R.id.showMainActivity);
+        Button BTNShowMainActivity = (Button) findViewById(com.example.micheal.gattify.R.id.showMainActivity);
 
         BTNShowMainActivity.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,9 +57,9 @@ public class TableActivity extends AppCompatActivity implements PopupMenu.OnMenu
 
         // The activity needs to know about this "Button" but the oncliclk logic is handled
         // be registering it in XML and by the onMenuItemClick() and showMenu() methods
-        resultsActivityMenuButton = (TextView) findViewById(R.id.resultsActivityMenuButton);
+        resultsActivityMenuButton = (TextView) findViewById(com.example.micheal.gattify.R.id.resultsActivityMenuButton);
 
-        ScrollView sv = (ScrollView) findViewById(R.id.tableContainer);
+        ScrollView sv = (ScrollView) findViewById(com.example.micheal.gattify.R.id.tableContainer);
 
 
         // Ensures TableCells take up one third of the screen
@@ -73,7 +69,7 @@ public class TableActivity extends AppCompatActivity implements PopupMenu.OnMenu
         cellWidth = screenWidth / 3;
 
         // Prepare the TableLayout, retrieve the entities and call method to fill it
-        myTable = (TableLayout) findViewById(R.id.myTable);
+        myTable = (TableLayout) findViewById(com.example.micheal.gattify.R.id.myTable);
 
         populateTable(getGatts());
 
@@ -322,7 +318,7 @@ public class TableActivity extends AppCompatActivity implements PopupMenu.OnMenu
         System.out.println("showmain");
         Intent showMainActivity = new Intent(TableActivity.this, MainActivity.class);
         startActivity(showMainActivity);
-        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+        overridePendingTransition(com.example.micheal.gattify.R.anim.slide_in_left, com.example.micheal.gattify.R.anim.slide_out_right);
     }
 
 
@@ -364,9 +360,7 @@ public class TableActivity extends AppCompatActivity implements PopupMenu.OnMenu
     }
 
     void compare(Gatt gatt){
-        Intent showCompare = new Intent(TableActivity.this, DrawActivity.class);
-        showCompare.putExtra("score", gatt.getScore());
-        startActivity(showCompare);
+
     }
 
     public void showMenu(View v) {
@@ -375,20 +369,20 @@ public class TableActivity extends AppCompatActivity implements PopupMenu.OnMenu
         PopupMenu pm = new PopupMenu(getApplicationContext(), resultsActivityMenuButton);
         MenuInflater mi = new MenuInflater(getApplicationContext());
         pm.setOnMenuItemClickListener(this);
-        mi.inflate(R.menu.results_menu, pm.getMenu());
+        mi.inflate(com.example.micheal.gattify.R.menu.results_menu, pm.getMenu());
         pm.show();
     }
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.results_populate_examples:
+            case com.example.micheal.gattify.R.id.results_populate_examples:
                 System.out.println("Populate examples");
                 return true;
-            case R.id.results_remove_examples:
+            case com.example.micheal.gattify.R.id.results_remove_examples:
                 System.out.println("Remove Examples");
                 return true;
-            case R.id.results_clear_all:
+            case com.example.micheal.gattify.R.id.results_clear_all:
                 System.out.println("Clear All");
                 return true;
             default:
