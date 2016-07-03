@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <LinearLayout
+        android:background="#517C62"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.05"
+        android:id="@+id/linearLayout">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="49dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Menu"
+                android:id="@+id/resultsActivityMenuButton"
+                android:textColor="#3f3f3f"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="34dp"
+                android:layout_marginEnd="34dp"
+                android:onClick="showMenu"/>
+
+            <ImageView
+                android:layout_width="75dp"
+                android:layout_height="99dp"
+                android:src="@drawable/beer"
+                android:layout_marginLeft="21dp"
+                android:layout_marginStart="21dp"
+                android:layout_alignBottom="@+id/resultsActivityMenuButton"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:scrollbars="none"
+        android:layout_weight="1"
+        android:id="@+id/tableContainer"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_below="@+id/linearLayout"
+        android:layout_above="@+id/showTableButton">
+
+        <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:stretchColumns="1"
+            android:id="@+id/myTable"
+            >
+
+
+        </TableLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="47dp"
+        android:layout_gravity="center_horizontal"
+        android:weightSum="1">
+
+
+    </LinearLayout>
+
+    <Button
+        android:layout_width="196dp"
+        android:layout_height="wrap_content"
+        android:text="show gatts"
+        android:id="@+id/showTableButton"
+        android:textColor="#ffffff"
+        android:background="#517C62"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="&lt; Add Another Gatt"
+        android:id="@+id/showMainActivity"
+        android:textColor="#ffffff"
+        android:background="#517C62"
+        android:layout_weight="1.11"
+        android:layout_alignBaseline="@+id/showTableButton"
+        android:layout_alignBottom="@+id/showTableButton"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+
+</RelativeLayout>
