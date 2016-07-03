@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.PopupMenu;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -56,7 +57,12 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         runIt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createGatt();
+                try {
+                    createGatt();
+                }
+                catch (Exception e){
+                    Toast.makeText(MainActivity.this, "All fields required" , Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -72,28 +78,27 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 String alcPercString;
 
-                if (progress<10){
+                if (progress < 10) {
                     alcPercString = Integer.toString(progress);
                     alcPercString = alcPercString.substring(0, 1) + "." + alcPercString.substring(1, alcPercString.length());
                     alcPercSeek.setText("Alcohol Percentage = " + alcPercString + "%");
                 }
-                if (progress>=10){
+                if (progress >= 10) {
                     alcPercString = Integer.toString(progress);
                     alcPercString = alcPercString.substring(0, 1) + "." + alcPercString.substring(1, alcPercString.length());
                     alcPercSeek.setText("Alcohol Percentage = " + alcPercString + "%");
                 }
-                if (progress>=100){
+                if (progress >= 100) {
                     alcPercString = Integer.toString(progress);
                     alcPercString = alcPercString.substring(0, 2) + "." + alcPercString.substring(2, alcPercString.length());
                     alcPercSeek.setText("Alcohol Percentage = " + alcPercString + "%");
                 }
-                if (progress==1000){
+                if (progress == 1000) {
                     alcPercString = Integer.toString(progress);
 //                    alcPercString = alcPercString.substring(0, 3) + "." + alcPercString.substring(3, alcPercString.length());
                     alcPercString = alcPercString.substring(0, 3);
                     alcPercSeek.setText("Alcohol Percentage = " + alcPercString + "%");
                 }
-
 
 
             }
@@ -144,14 +149,9 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
 
         Gatt userGatt = new Gatt(gattName, selectedGattType, gattPercentage, gattVolume , gattPrice,  gattUnits );
 
-        System.out.println(userGatt);
 
         userGatt.save();
-        System.out.println("Db saved ok");
-        System.out.println("contents of DB:");
-        List<Gatt> gatts =  Gatt.listAll(Gatt.class);
-        System.out.println(gatts);
-
+        Toast.makeText(this, "Gatt saved!" , Toast.LENGTH_SHORT).show();
 
     }
 
@@ -202,7 +202,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                         "Just enter your Gatt's details on this page and hit 'Add Gatt' to save it. \n" +
                 "\n" +
                 "Compare different Gatts you have added by " +
-                        "tapping the 'Show Gatts' button. \n" +
+                        "tapping the 'Show Gatts' button. The higher the Gattify score the better. \n" +
                         "\n " +
                         "Happy Gatting!  ");
         final SpannableString s =
